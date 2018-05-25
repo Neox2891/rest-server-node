@@ -6,12 +6,13 @@ const app = express();
 // const port = process.env.PORT || 3000;
 
 // parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: false }));
 
 // parse application/json
-app.use(bodyParser.json())
+app.use(bodyParser.json());
 
-app.use(require('./routes/usuarios'));
+// Configuracion global de rutas
+app.use(require('./routes/index'));
 
 mongoose.connect(process.env.URLDB, (err, res) => {
     if (err) throw err;
