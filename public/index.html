@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <meta name="google-signin-client_id" content="175183948091-kgruktnp8uhovtsj5kg1c4l8akrnc781.apps.googleusercontent.com">
+</head>
+
+<body>
+    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+    <a href="#" onclick="signOut();">Sign out</a>
+    <!-- 
+    <button id="getData"> GET DATA </button>
+
+    <p id="output"></p>
+    <script>
+        document.getElementById('getData').addEventListener('click', getData);
+
+        function getData() {
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '/usuario');
+            xhr.setRequestHeader('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7InJvbGUiOiJBRE1JTl9ST0xFIiwiZXN0YWRvIjp0cnVlLCJnb29nbGUiOmZhbHNlLCJfaWQiOiI1YjA0OTRhNTg4M2QyYzE5ZjIzYWFmNTEiLCJub21icmUiOiJ0ZXN0MSIsImVtYWlsIjoidGVzdDFAZ21haWwuY29tIiwiX192IjowfSwiaWF0IjoxNTI3NzM0NDM4LCJleHAiOjE1Mjc3MzcwMzB9.b__KAdTQm5NQu9WB0lsmxCvM3dw8jLEv2_roc36PhXQ');
+            xhr.onload = function() {
+                console.log('Signed in as: ' + xhr.responseText);
+                let data = JSON.parse(xhr.responseText);
+                if (!data.ok) {
+                    return data;
+                }
+                let result = '<h2> User Info </h2>';
+                data.usuarios.forEach((user) => {
+                    result +=
+                        `<h4> User ID: ${user._id} </h4>
+                        <ul class="w3-ul">
+                        <li> nombre : ${user.nombre}</li>
+                        <li> email : ${user.email} </li>
+                        <li> google : ${user.google} </li>
+                        <li> estado : ${user.estado} </li>
+                        <li> role : ${user.role} </li>
+                    </ul>
+                        `;
+                    document.getElementById('output').innerHTML = result;
+                });
+
+            };
+            xhr.send(null);
+
+            // fetch(`http://localhost:3000/usuario?desde=${desde}&limite=${limite}`, {
+            //         headers: {
+            //             token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7InJvbGUiOiJBRE1JTl9ST0xFIiwiZXN0YWRvIjp0cnVlLCJnb29nbGUiOmZhbHNlLCJfaWQiOiI1YjA3OTk1MzRhMjdkMzAwMTQxMTljYmUiLCJub21icmUiOiJ0ZXN0MSIsImVtYWlsIjoidGVzdDFAZ21haWwuY29tIiwiX192IjowfSwiaWF0IjoxNTI3NTUyNzMxLCJleHAiOjE1Mjc1NTUzMjN9.b7ZmSqEbIxiq7rKdUD7XdYzAi_31ZeWOuBRrjK0MSkk'
+            //         }
+            //     })
+            //     .then((res) => {
+            //         // console.log(res.json());
+            //         return res.json()
+            //     })
+            //     .then((data) => {
+            //         if (data.ok) {
+
+            //             let result = '<h2> User Info </h2>';
+            //             console.log(data);
+            //             data.usuarios.forEach((user) => {
+            //                 result +=
+            //                     `<h4> User ID: ${user._id} </h4>
+            //              <ul class="w3-ul">
+            //                <li> nombre : ${user.nombre}</li>
+            //                <li> email : ${user.email} </li>
+            //                <li> google : ${user.google} </li>
+            //                <li> estado : ${user.estado} </li>
+            //                <li> role : ${user.role} </li>
+            //             </ul>
+            //              `;
+            //                 document.getElementById('output').innerHTML = result;
+            //             });
+            //         }
+            //     })
+        } 
+    </script> -->
+    <script>
+        function signOut() {
+            var auth2 = gapi.auth2.getAuthInstance();
+            auth2.signOut().then(function() {
+                console.log('User signed out.');
+            });
+        }
+    </script>
+
+    <script>
+        function onSignIn(googleUser) {
+            var profile = googleUser.getBasicProfile();
+            console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+            console.log('Name: ' + profile.getName());
+            console.log('Image URL: ' + profile.getImageUrl());
+            console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+
+            var id_token = googleUser.getAuthResponse().id_token;
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/google');
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onload = function() {
+                console.log('Signed in as: ' + xhr.responseText);
+            };
+            xhr.send('idtoken=' + id_token);
+
+        }
+    </script>
+</body>
+
+</html>
