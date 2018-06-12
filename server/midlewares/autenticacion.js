@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 let verificarToken = (req, res, next) => {
-
+    // obtener informacion del header
     let token = req.get('token');
 
     jwt.verify(token, process.env.SEED, (err, decoded) => {
@@ -14,6 +14,7 @@ let verificarToken = (req, res, next) => {
                 }
             });
         }
+        // crea una propiedad en la solicitud
         req.usuario = decoded.usuario;
         next();
     })
