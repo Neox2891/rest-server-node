@@ -31,7 +31,7 @@ app.get('/productos', verificarToken, (req, res) => {
 app.get('/productos/buscar/:termino', (req, res) => {
 
     let termino = req.params.termino;
-    // esxpresiones regulares para que la busqueda sea mas flexible
+    // expresiones regulares para que la busqueda sea mas flexible
     let regEx = new RegExp(termino, 'i'); // "i" insensible a las mayusculas y minusculas
 
     Productos.find({ nombre: regEx })
@@ -101,7 +101,8 @@ app.post('/productos', verificarToken, (req, res) => {
         precioUni: body.precioUni,
         descripcion: body.descripcion,
         categoria: body.categoria,
-        usuario: usuario._id
+        usuario: usuario._id,
+        fecha: Date()
     });
 
     producto.save((err, productoDB) => {

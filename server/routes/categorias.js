@@ -29,29 +29,31 @@ app.get('/categoria/:id', verificarToken, (req, res) => {
 
     let id = req.params.id;
 
-    Categoria.findById(id, (err, categoriaDB) => {
+    Categoria.findById(id)
+        .populate('usuario', 'nombre role email')
+        .exec((err, categoriaDB) => {
 
-        if (err) {
-            return res.status(500).json({
-                ok: false,
-                err
+            if (err) {
+                return res.status(500).json({
+                    ok: false,
+                    err
+                });
+            }
+
+            if (!categoriaDB) {
+                return res.status(400).json({
+                    ok: false,
+                    err: {
+                        message: 'El ID no es correcto'
+                    }
+                });
+            }
+
+            res.json({
+                categoriaDB
             });
-        }
 
-        if (!categoriaDB) {
-            return res.status(400).json({
-                ok: false,
-                err: {
-                    message: 'El ID no es correcto'
-                }
-            });
-        }
-
-        res.json({
-            categoriaDB
         });
-
-    });
 
 });
 // Crear una categoria
@@ -61,7 +63,8 @@ app.post('/categoria', [verificarToken, verificaAdminRole], (req, res) => {
     let idUsuario = req.usuario._id;
     let categoria = new Categoria({
         descripcion: body.descripcion,
-        usuario: idUsuario
+        usuario: idUsuario,
+        fecha: Date()
     });
 
     categoria.save((err, categoriaDB) => {

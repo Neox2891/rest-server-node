@@ -13,6 +13,9 @@ const categoriaSchema = new Schema({
     usuario: {
         type: Schema.Types.ObjectId,
         ref: 'Usuario'
+    },
+    fecha: {
+        type: String
     }
 });
 

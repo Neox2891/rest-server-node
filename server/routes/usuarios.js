@@ -15,7 +15,7 @@ app.get('/usuario', verificarToken, (req, res) => {
     let desde = Number(req.query.desde) || 0;
     let limite = Number(req.query.limite) || 5;
 
-    Usuario.find({ estado: true }, 'nombre email role estado google img')
+    Usuario.find({ estado: true }, 'nombre email role estado google img fecha')
         .skip(desde)
         .limit(limite)
         .exec((err, usuarios) => {
@@ -56,7 +56,8 @@ app.post('/usuario', [verificarToken, verificaAdminRole], (req, res) => {
         nombre: body.nombre,
         email: body.email,
         password: bcrypt.hashSync(body.password, 10),
-        role: body.role
+        role: body.role,
+        fecha: Date()
     });
 
     usuario.save((err, usuarioDB) => {

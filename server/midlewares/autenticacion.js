@@ -2,7 +2,18 @@ const jwt = require('jsonwebtoken');
 
 let verificarToken = (req, res, next) => {
     // obtener informacion del header
+    let urlToken = req.query.token;
     let token = req.get('token');
+
+    if (urlToken) {
+        headerQueryToken(req, res, next, urlToken);
+    } else {
+        headerQueryToken(req, res, next, token);
+    }
+
+};
+
+let headerQueryToken = (req, res, next, token) => {
 
     jwt.verify(token, process.env.SEED, (err, decoded) => {
 
@@ -19,7 +30,7 @@ let verificarToken = (req, res, next) => {
         next();
     })
 
-};
+}
 
 let verificaAdminRole = (req, res, next) => {
 
