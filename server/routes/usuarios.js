@@ -15,6 +15,8 @@ app.get('/usuario', verificarToken, (req, res) => {
     let desde = Number(req.query.desde) || 0;
     let limite = Number(req.query.limite) || 5;
 
+    console.log(Date());
+
     Usuario.find({ estado: true }, 'nombre email role estado google img fecha')
         .skip(desde)
         .limit(limite)
