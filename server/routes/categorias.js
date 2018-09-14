@@ -148,4 +148,13 @@ app.delete('/categoria/:id', [verificarToken, verificaAdminRole], (req, res) => 
 
 });
 
+app.get('/categoria/grafica', (req, res) => {
+
+    res.json({
+        ok: true,
+        temperatura: [36, 45, 65, 25, 35, 48, 74, 41, 26, 37, 32, 28, 29, 48, 65, 32, 15, 25, 85, 45, 23, 35, 15, 41]
+    });
+
+});
+
 module.exports = app;
