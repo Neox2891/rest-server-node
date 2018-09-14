@@ -3,6 +3,15 @@ const Categoria = require('../models/categoria');
 const { verificarToken, verificaAdminRole } = require('../midlewares/autenticacion');
 const app = express();
 
+app.get('/categoria/grafica', (req, res) => {
+
+    res.json({
+        ok: true,
+        temperatura: [36, 45, 65, 25, 35, 48, 74, 41, 26, 37, 32, 28, 29, 48, 65, 32, 15, 25, 85, 45, 23, 35, 15, 41]
+    });
+
+});
+
 // mostrar todas las categorias sin paginar
 app.get('/categoria', verificarToken, (req, res) => {
 
@@ -54,8 +63,8 @@ app.get('/categoria/:id', verificarToken, (req, res) => {
             });
 
         });
-
 });
+
 // Crear una categoria
 app.post('/categoria', [verificarToken, verificaAdminRole], (req, res) => {
 
@@ -144,15 +153,6 @@ app.delete('/categoria/:id', [verificarToken, verificaAdminRole], (req, res) => 
             categoriaRemove,
             message: 'Categoria eliminada'
         });
-    });
-
-});
-
-app.get('/categoria/grafica', (req, res) => {
-
-    res.json({
-        ok: true,
-        temperatura: [36, 45, 65, 25, 35, 48, 74, 41, 26, 37, 32, 28, 29, 48, 65, 32, 15, 25, 85, 45, 23, 35, 15, 41]
     });
 
 });
